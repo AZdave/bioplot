@@ -1,4 +1,4 @@
-**Program: bioplot.py**
+**Program: bioplot.py Overview**
 
         This program calculates seven biorhythm curves and four derived 
         curves. To calculate these curves two things are needed: 1) the birth 
@@ -15,6 +15,7 @@
         Janis Joplin's birth date and death date are used as an example.
 
 **Biorhythm Curves**  
+
         Name          Cycle (days)
         Physical       (23): 
         Intellectual   (28): 
@@ -25,6 +26,7 @@
         Spiritual      (53): 
 
 **Derived Curves**
+
         Name
         Passion   [(P+E)/2]:  Average of Physical  and Emotional rhythms
         Wisdom    [(E+I)/2]:  Average of Emotional and Intellectual rhythms 
@@ -33,6 +35,7 @@
                                          Intellectual rhythms 
 
 **Files                                   Description**
+
 bioplot_Janis_Joplin_1943-01-19.csv     Birth data
 bioplot_Janis_Joplin_1970-10-04.csv     Death data
 bioplot_Janis_Joplin_2001-03-27.csv     58y Middle Age Crisis
@@ -47,6 +50,7 @@ Figure_4.jpg                            Physical,Intelectual,Emotional,Average p
 
 
 **Help**
+
 $ python bioplot.py -h
 usage: bioplot \[-h] \[-n NAME] \[-bd BIRTH_DATE] \[-td TARGET_DATE] \[-d] \[-f] \[-q] \[-u] \[-v] \[-p PLOT]
 
@@ -79,6 +83,7 @@ optional arguments:
       Plot #5 - Shows all the above seperately
     
 **Biorhythm Quirks:**
+
         1.) I call this your Middle Age crisis. The PEI curves repeat
             in  58y 2m 6d 12h 42m 52s 483622.4us from birth. At birth
             all curves atart at zero and increase. The program showed this
@@ -97,11 +102,13 @@ optional arguments:
             main curves (PIE).
 
 **Python Notes**
+
         There are many ways to do things. This program doesn't use dataforms.
         Also if I could brute force the colorized text, why load a special 
         module.
 
 **Acknowledgements**
+
         1. https://www.daniweb.com/programming/software-development/code/216724/biorhythm-values-python
            This is were the checking: peak, zero, valley routines are. Mine 
            are in function to be able to check any curve.
