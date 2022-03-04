@@ -3,11 +3,22 @@
 from datetime import date, timedelta, datetime
 # from math import floor, sin, pi
 from numpy import arange, floor, sin, pi # need arange to calculate x vector
+import matplotlib  as mplt
 from matplotlib.pyplot import figure, show
+from matplotlib import dates as pdates
 
 import argparse
-import os
+import os           # used for path and exit
 
+
+# Setup plot defaults
+# see /usr/lib/python3/dist-packages/matplotlib/rcsetup.py for names of _validators
+mplt.rcParams["figure.figsize"] = [ 10.0, 8.0 ]
+pwd=os.getcwd()
+mplt.rcParams["savefig.directory"] = pwd
+mplt.rcParams["savefig.format"] = 'jpg'
+
+#os._exit(0)
 ap = argparse.ArgumentParser(prog="bioplot",
     description="Biorythm plotter of 11 curves on 4 different plots.",
     formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -22,14 +33,14 @@ ap = argparse.ArgumentParser(prog="bioplot",
 ap.add_argument(
       '-n',
       '--name',
-      default='Person Name',
+      default='Dave La Rosa',
       nargs=1, 
       type=str,
       help="Person's Full name for plot title (default: %(default)s)")
 ap.add_argument(
       '-bd',
       '--birth_date',
-      default='1946-10-26',  
+      default='1951-02-08',  
       nargs=1, 
       type=str,
       help="Person's birth date yyyy-mm-dd (default: %(default)s)")
@@ -41,6 +52,13 @@ ap.add_argument(
       type=str,
       help="Target date on plot yyyy-mm-dd (default: %(default)s)")
 ap.add_argument(
+      '-bh',
+      '--birth_tz_diff',
+      default='0',
+      nargs=1, 
+      type=int,
+      help="Person's birth time zone difference to current tz (default: %(default)s) hours(+/-0-23)")
+ap.add_argument(
       '-d',
       '--debug',
       default=False,
@@ -51,6 +69,18 @@ ap.add_argument(
       '--file',
       action='store_true',
       help='Output csv file of plot data (default: %(default)s)')
+ap.add_argument(
+      '-sb',
+      '--show_birth_date',
+      default=False,
+      action='store_true',
+      help='Show Birth Date of plot, (default: %(default)s)')
+ap.add_argument(
+      '-st',
+      '--show_target_date',
+      default=True,
+      action='store_true',
+      help='Show Target Date of plot, (default: %(default)s)')
 ap.add_argument(
       '-q',
       '--query',
@@ -69,7 +99,7 @@ ap.add_argument(
 ap.add_argument(
       '-p',
       '--plot',
-      default=1,
+      default=4,
       nargs=1, 
       type=int,
       help="Number (1-5) of plots to show (default: %(default)s)")
@@ -82,7 +112,7 @@ if args.usage:
 
 # clean up types of input arguments
 if args.version:
-    print("$RCSfile: bioplot.py,v $ - $Revision: 1.2 $ $Date: 2022/02/16 00:50:34 $")
+    print("$RCSfile: bioplot.py,v $ - $Revision: 1.4 $ $Date: 2022/03/04 01:36:21 $")
     os._exit(0)
 
 if type(args.name) == list:
@@ -100,24 +130,40 @@ if type(args.target_date) == list:
 else:
     target_date = args.target_date
 
+if type(args.birth_tz_diff) == list:
+    birth_tz_diff = args.birth_tz_diff[0]
+else:
+    birth_tz_diff = args.birth_tz_diff
+
+if birth_tz_diff != 0:
+    # Always show birth_tz_diff on plot when non-zero
+    args.show_birth_date=True
+
 if type(args.plot) == int:
     plot = args.plot
 else:
     plot = args.plot[0]
 
 if args.debug:
+    print("DEBUG: getcwd ",os.getcwd())
+    print("DEBUG: fspath ",os.fspath(pwd))
+    print("DEBUG: PYTHONHOME ",os.getenv("PYTHONHOME","None"))
+    print("DEBUG: HOME ",os.getenv("HOME","None"))
+    print('DEBUG: mplt.rcParams["figure.figsize"] ', mplt.rcParams["figure.figsize"])
+    print('DEBUG: mplt.rcParams["savefig.directory"] ',mplt.rcParams["savefig.directory"])
     print('DEBUG: args.name   \ttype: ', type(args.name), args.name)
     print('DEBUG: args.birth_date\ttype: ', type(args.birth_date), args.birth_date)
+    print('DEBUG: args.show_birth_date\ttype: ', type(args.show_birth_date), args.show_birth_date)
     print('DEBUG: args.target_date\ttype: ', type(args.target_date), args.target_date)
+    print('DEBUG: args.show_target_date\ttype: ', type(args.show_target_date), args.show_target_date)
     print('DEBUG: args.plot   \ttype: ', type(args.plot), args.plot)
     print('DEBUG: Args ',args)
     print('DEBUG: name   \t\ttype: ', type(name), name)
     print('DEBUG: birth_date\ttype: ', type(birth_date), birth_date)
     print('DEBUG: target_date\ttype: ', type(target_date), target_date)
+    print('DEBUG: birth_tz_diff\ttype: ', type(birth_tz_diff), birth_tz_diff)
     print('DEBUG: plot   \t\ttype: ', type(plot), plot)
-
-if args.debug:
-    print("file: ",args.file)
+    print("DEBUG: file: ",args.file)
 
 
 person=name # to match input arguments
@@ -137,21 +183,34 @@ def bioplot(xx,yy1,label1,color1,yy2,label2,color2,yy3,label3,color3,figs):
     bioplot function will plot three biorythm curves with a legend
 
     """
-    fig = figure(figs,figsize=(10,8))
+    if args.debug: print("DEBUG: bioplot called ")
+    # Was: fig = figure(figs,figsize=(10,8))
+    fig = figure(figs)
     ax1 = fig.add_subplot(111)
     ax1.grid(True)
-    ax1.set_xlabel('Dates')
-    ax1.set_title(person + "'s Biorythm")
+    ax1.set_xlabel('\nDates\n'+'('+str(tyear)+')')
+    ax1.set_title(person + "'s Biorythm\n")
     ax1.set_ylim((-1,1))
     ax1.plot(xx,yy1,label=label1,color=color1)
     ax1.plot(xx,yy2,label=label2,color=color2)
     ax1.plot(xx,yy3,label=label3,color=color3)
-    #ax1.plot([targetdate,targetdate,targetdate], [-1,0,1] , color='black',label='Today')
     # Add a cursor on target date + 12 hours
-    ax1.plot([xx[372],xx[372],xx[372]], [-1,0,1] , color='black',label=None)
+    ax1.plot([xx[time_cursor],xx[time_cursor],xx[time_cursor]], [-1,0,1] , color='black',label=None)
     # add dots to cursor
-    ax1.plot([xx[372],xx[372],xx[372]], [yy1[372],yy2[372],yy3[372]] , color='black',label=None,marker="o")
-    ax1.xaxis.set_tick_params(rotation=30, labelsize=10)
+    # Was: ax1.plot([xx[time_cursor],xx[time_cursor],xx[time_cursor]], [yy1[time_cursor],yy2[time_cursor],yy3[time_cursor]] , color='black',label=None,marker="o")
+    ax1.plot(xx[time_cursor], yy1[time_cursor], color='black',markerfacecolor=color1, label=None, marker="o")
+    ax1.plot(xx[time_cursor], yy2[time_cursor], color='black',markerfacecolor=color2, label=None, marker="o")
+    ax1.plot(xx[time_cursor], yy3[time_cursor], color='black',markerfacecolor=color3, label=None, marker="o")
+    # was: ax1.xaxis.set_tick_params(rotation=30, labelsize=10)
+    if args.show_birth_date:
+        if args.birth_tz_diff == 0:
+            ax1.text(xx[0],-1.15, 'Birth Date: '+birth_date, verticalalignment='bottom', horizontalalignment='left',color='black', bbox={'facecolor': 'None'})
+        else:
+            ax1.text(xx[0],-1.15, 'Birth Date: '+birth_date+' '+str(birth_tz_diff)+' hours' , verticalalignment='bottom', horizontalalignment='left',color='black', bbox={'facecolor': 'None'})
+    if args.show_target_date:
+        ax1.text(xx[360], 1.015, 'Target Date: '+target_date, verticalalignment='bottom', horizontalalignment='center',color='black', bbox={'facecolor': 'None'})
+    formatter = pdates.DateFormatter("%m-%d")
+    ax1.xaxis.set_major_formatter(formatter)
     ax1.legend(loc="upper left")
     show()
 
@@ -161,21 +220,36 @@ def bioplot4(xx,yy1,label1,color1,yy2,label2,color2,yy3,label3,color3,yy4,label4
     bioplot4 function will plot four biorythm curves with a legend
 
     """
-    fig = figure(figs,figsize=(10,8))
+    if args.debug: print("DEBUG: bioplot4 called ")
+    # fig = figure(figs,figsize=(10,8))
+    fig = figure(figs)
     ax1 = fig.add_subplot(111)
     ax1.grid(True)
-    ax1.set_xlabel('Dates')
-    ax1.set_title(person + "'s Biorythm")
+    ax1.set_xlabel('\nDates\n'+'('+str(tyear)+')')
+    ax1.set_title(person + "'s Biorythm\n")
     ax1.set_ylim((-1,1))
     ax1.plot(xx,yy1,label=label1,color=color1)
     ax1.plot(xx,yy2,label=label2,color=color2)
     ax1.plot(xx,yy3,label=label3,color=color3)
     ax1.plot(xx,yy4,label=label4,color=color4)
     # Add a cursor on target date + 12 hours
-    ax1.plot([xx[372],xx[372],xx[372]], [-1,0,1] , color='black',label=None)
+    ax1.plot([xx[time_cursor],xx[time_cursor],xx[time_cursor]], [-1,0,1] , color='black',label=None)
     # add dots to cursor
-    ax1.plot([xx[372],xx[372],xx[372],xx[372]], [yy1[372],yy2[372],yy3[372],yy4[372]] , color='black',label=None,marker="o")
-    ax1.xaxis.set_tick_params(rotation=30, labelsize=10)
+    # was: ax1.plot([xx[time_cursor],xx[time_cursor],xx[time_cursor],xx[time_cursor]], [yy1[time_cursor],yy2[time_cursor],yy3[time_cursor],yy4[time_cursor]] , color='black',label=None,marker="o")
+    ax1.plot(xx[time_cursor], yy1[time_cursor], color='black',markerfacecolor=color1, label=None, marker="o")
+    ax1.plot(xx[time_cursor], yy2[time_cursor], color='black',markerfacecolor=color2, label=None, marker="o")
+    ax1.plot(xx[time_cursor], yy3[time_cursor], color='black',markerfacecolor=color3, label=None, marker="o")
+    ax1.plot(xx[time_cursor], yy4[time_cursor], color='black',markerfacecolor=color4, label=None, marker="o")
+    # Was: ax1.xaxis.set_tick_params(rotation=30, labelsize=10)
+    formatter = pdates.DateFormatter("%m-%d")
+    ax1.xaxis.set_major_formatter(formatter)
+    if args.show_birth_date:
+        if args.birth_tz_diff == 0:
+            ax1.text(xx[0],-1.15, 'Birth Date: '+birth_date, verticalalignment='bottom', horizontalalignment='left',color='black', bbox={'facecolor': 'None'})
+        else:
+            ax1.text(xx[0],-1.15, 'Birth Date: '+birth_date+' '+str(birth_tz_diff)+' hours' , verticalalignment='bottom', horizontalalignment='left',color='black', bbox={'facecolor': 'None'})
+    if args.show_target_date:
+        ax1.text(xx[360], 1.015, 'Target Date: '+target_date, verticalalignment='bottom', horizontalalignment='center',color='black', bbox={'facecolor': 'None'})
     ax1.legend(loc="upper left")
     show()
 
@@ -306,9 +380,10 @@ if args.query:
     person = ask("Enter person's name ",person)
     birth_date = ask("Enter Birth Date ",birth_date)
     target_date = ask("Enter Target Date ",target_date)
+    birth_tz_diff = int(ask("Enter Birth Time Zone",birth_tz_diff))
 
 # datetime function needed for time points to get smooth curve
-birthdate = datetime.fromisoformat(birth_date)  
+birthdate = datetime.fromisoformat(birth_date)   + timedelta(hours=birth_tz_diff)
 targetdate = datetime.fromisoformat(target_date)
 #targetdate = datetime.fromisoformat(birth_date) + timedelta(days=int(21252))    # test all zeros? 23*28*33 = 21252 = 58y 2m 6d 12h 42m 52s 483622.4us
 print("Birth: ",birth_date,birthdate,"   Target: ",target_date,targetdate)
@@ -334,19 +409,24 @@ intuitional =  sin((2*pi*x)/38)
 aesthetic =    sin((2*pi*x)/43)
 selfaware =    sin((2*pi*x)/48)
 spiritual =    sin((2*pi*x)/53)
-# Half of 30days*24hour(=720 items) dataset is 360 + 12 hours later (Noon) = 372
-print(xd[372], person+" was "+str(days)+" days old = ",days/365.25,"years",
-      "\n\tPhysical       (23): ",physical[372],
-      "\n\tIntellectual   (28): ",intellectual[372],
-      "\n\tEmotional      (33): ",emotional[372],
-      "\n\tPassion   [(P+E)/2]: ",passion[372],
-      "\n\tWisdom    [(E+I)/2]: ",wisdom[372],
-      "\n\tMastery   [(P+I)/2]: ",mastery[372],
-      "\n\tAverage [(P+E+I)/3]: ",aver[372],
-      "\n\tIntuitional    (38): ",intuitional[372],
-      "\n\tAesthetic      (43): ",aesthetic[372],
-      "\n\tSelf-Awareness (48): ",selfaware[372],
-      "\n\tSpiritual      (53): ",spiritual[372])
+# Half of 30days*24hour(=720 items) 
+if birth_tz_diff != 0:
+   time_cursor = 360 + birth_tz_diff
+else:
+   time_cursor = 360 
+   
+print(xd[time_cursor], person+" was "+str(days)+" days old = ",days/365.25,"years",
+      "\n\tPhysical       (23): ",physical[time_cursor],
+      "\n\tIntellectual   (28): ",intellectual[time_cursor],
+      "\n\tEmotional      (33): ",emotional[time_cursor],
+      "\n\tPassion   [(P+E)/2]: ",passion[time_cursor],
+      "\n\tWisdom    [(E+I)/2]: ",wisdom[time_cursor],
+      "\n\tMastery   [(P+I)/2]: ",mastery[time_cursor],
+      "\n\tAverage [(P+E+I)/3]: ",aver[time_cursor],
+      "\n\tIntuitional    (38): ",intuitional[time_cursor],
+      "\n\tAesthetic      (43): ",aesthetic[time_cursor],
+      "\n\tSelf-Awareness (48): ",selfaware[time_cursor],
+      "\n\tSpiritual      (53): ",spiritual[time_cursor])
 """
 print(" I Days    Date  Physical  Intellectual  emotional  Average   Passion   Wisdom   Mastery  Aesthetic  Self-Awareness  Spiritual")
 for i in range(0,30,1):
@@ -357,6 +437,8 @@ check_wave(physical,23,'Physical')
 check_wave(intellectual,28,'Intellectual')
 check_wave(emotional,33,'Emotional')
 nicename=person+"_"
+if birth_tz_diff != 0:
+   nicename=nicename+str(birth_tz_diff)+"h_"
 if args.debug:
     print('Nice Name: "' + removes(nicename) + '"')
 fname=str('bioplot_') + removes(nicename) + str(target_date) + '.csv'

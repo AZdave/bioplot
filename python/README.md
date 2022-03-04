@@ -57,8 +57,14 @@ optional arguments:
                         Person's birth date yyyy-mm-dd (default: 1946-10-26)
   -td TARGET\_DATE, --target\_date TARGET\_DATE
                         Target date on plot yyyy-mm-dd (default: 2022-02-15)
+  -bh BIRTH_TZ_DIFF, --birth_tz_diff BIRTH_TZ_DIFF
+                        Person's birth time zone difference to current tz (default: 0) hours(+/-0-23)
   -d, --debug           print debug statements(default: False)
   -f, --file            Output csv file of plot data (default: False)
+  -sb, --show_birth_date
+                        Show Birth Date of plot, (default: False)
+  -st, --show_target_date
+                        Show Target Date of plot, (default: True)
   -q, --query           Query user with questions: Name, Birth Date, Target Date. (default: False)
   -u, --usage           Show usage for bioplot (default: False)
   -v, --version         Display version (default: False)
