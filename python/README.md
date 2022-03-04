@@ -13,6 +13,7 @@
         green, zeros in red and valleys in yellow.
 
         Janis Joplin's birth date and death date are used as an example.
+
         ![Janis Joplin Plot 4 Image](./Figure_4.jpg)
 
 **Biorhythm Curves**  
