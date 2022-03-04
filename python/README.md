@@ -36,21 +36,24 @@
 
 **Files                                   Description**
 
+```
 bioplot_Janis_Joplin_1943-01-19.csv     Birth data
 bioplot_Janis_Joplin_1970-10-04.csv     Death data
 bioplot_Janis_Joplin_2001-03-27.csv     58y Middle Age Crisis
 bioplot.py                              program
 command_line.jpg                        Shows peak,zero,valley colors
-Figure_1B.jpg                           Birth starts at zero
-Figure_1M.jpg                           MAC same as birth
 Figure_1.jpg                            Physical,Intelectual,Emotional plot
 Figure_2.jpg                            Passion,Wisdom,Mastery plot
 Figure_3.jpg                            Intuitional,Aesthetic,Self-Awareness,Spiritual
 Figure_4.jpg                            Physical,Intelectual,Emotional,Average plot
+Figure_4B.jpg                           Birth starts at zero
+Figure_4M.jpg                           MAC same as birth
+```
 
 
 **Help**
 
+```
 $ python bioplot.py -h
 usage: bioplot \[-h] \[-n NAME] \[-bd BIRTH_DATE] \[-td TARGET_DATE] \[-d] \[-f] \[-q] \[-u] \[-v] \[-p PLOT]
 
@@ -81,6 +84,8 @@ optional arguments:
       Plot #3 - Shows Intuitional, Aesthetic, Self-Awareness, Spiritual
       Plot #4 - Shows Physical, Intellectual, Emotional, Average
       Plot #5 - Shows all the above seperately
+
+```
     
 **Biorhythm Quirks:**
 
