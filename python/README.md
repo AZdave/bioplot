@@ -1,6 +1,6 @@
 **Program: bioplot.py**
 
-        This program calculates eigth biorhythm curves and four derived 
+        This program calculates seven biorhythm curves and four derived 
         curves. To calculate these curves two things are needed: 1) the birth 
         date; and 2) a target date. The target date is automatically today's 
         date.
@@ -11,6 +11,8 @@
         you are coming or going); Valleys (when you are weakest in this
         characteristic). If your terminal supports it, you will see peaks in
         green, zeros in red and valleys in yellow.
+
+        Janis Joplin's birth date and death date are used as an example.
 
 **Biorhythm Curves**  
         Name          Cycle (days)
@@ -33,15 +35,15 @@
 **Files                                   Description**
 bioplot_Janis_Joplin_1943-01-19.csv     Birth data
 bioplot_Janis_Joplin_1970-10-04.csv     Death data
-bioplot_Janis_Joplin_2001-03-25.csv     58y Middle Age Crisis
+bioplot_Janis_Joplin_2001-03-27.csv     58y Middle Age Crisis
 bioplot.py                              program
-command_line.png                        Shows peak,zero,valley colors
-Figure_1B.png                           Birth starts at zero
-Figure_1M.png                           MAC same as birth
-Figure_1.png                            Physical,Intelectual,Emotional plot
-Figure_2.png                            Passion,Wisdom,Mastery plot
-Figure_3.png                            Intuitional,Aesthetic,Self-Awareness,Spiritual
-Figure_4.png                            Physical,Intelectual,Emotional,Average plot
+command_line.jpg                        Shows peak,zero,valley colors
+Figure_1B.jpg                           Birth starts at zero
+Figure_1M.jpg                           MAC same as birth
+Figure_1.jpg                            Physical,Intelectual,Emotional plot
+Figure_2.jpg                            Passion,Wisdom,Mastery plot
+Figure_3.jpg                            Intuitional,Aesthetic,Self-Awareness,Spiritual
+Figure_4.jpg                            Physical,Intelectual,Emotional,Average plot
 
 
 **Help**
@@ -86,8 +88,9 @@ optional arguments:
 
         2.) If biorhythms were accurate and useful, then you should 
             consider time zones.  Add birth time and zone to the birthdate.
-            I will leave this as an exercise for the user. My time difference
-            is two hours hardly noticable on the plots.
+            My time difference is two hours hardly noticable on the plots.
+            The program has a crude time zone difference in hours by using 
+            the -bh switch.
 
         3.) It seems to me that the chances of finding a problem have 
             increased with the number of biorhythm curves. Keep to three 
