@@ -112,7 +112,7 @@ if args.usage:
 
 # clean up types of input arguments
 if args.version:
-    print("$RCSfile: bioplot.py,v $ - $Revision: 1.4 $ $Date: 2022/03/04 01:36:21 $")
+    print("$RCSfile: bioplot.py,v $ - $Revision: 1.6 $ $Date: 2022/03/04 05:57:01 $")
     os._exit(0)
 
 if type(args.name) == list:
@@ -265,7 +265,7 @@ def writecsv(name):
     headers = ['Date','Physical','Intellectual','Emotional','Passion','Wisdom','Mastery','Average','Intuitional','Aesthetic','Self-Awareness','Spiritual' ]
     data1.writerow(headers)
     for i in range(0,len(xd),1):
-        p = [ xd[i], physical[i], intellectual[i], emotional[i], passion[i], wisdom[i], mastery[i], aver[i], aesthetic[i], selfaware[i], spiritual[i] ]
+        p = [ xd[i], physical[i], intellectual[i], emotional[i], passion[i], wisdom[i], mastery[i], aver[i], intuitional[i], aesthetic[i], selfaware[i], spiritual[i] ]
         data1.writerow(p)
     file1.close()
     print('File: ', name, ' written.')
