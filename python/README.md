@@ -13,7 +13,7 @@
         green, zeros in red and valleys in yellow.
 
         Janis Joplin's birth date and death date are used as an example.
-        ![Figure_4.jpg]
+        ![https://github.com/AZdave/bioplot/tree/main/python/Figure_4.jpg]
 
 **Biorhythm Curves**  
 
