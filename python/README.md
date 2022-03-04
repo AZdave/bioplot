@@ -1,3 +1,5 @@
+        ![Janis Joplin Plot 4 Image](./Figure_4.jpg)
+
 **Program: bioplot.py Overview**
 
         This program calculates seven biorhythm curves and four derived 
@@ -13,8 +15,6 @@
         green, zeros in red and valleys in yellow.
 
         Janis Joplin's birth date and death date are used as an example.
-
-        ![Janis Joplin Plot 4 Image](./Figure_4.jpg)
 
 **Biorhythm Curves**  
 
