@@ -31,11 +31,11 @@
 **Python Modules Used**
 
 ```
-**argparse**    Command line argument parsing
-**datetime**    Date calculations
-**matplotlib**  Plot routines
-**numpy**       Math functions
-**os**          Operating system used to save plot in CWD
+argparse    Command line argument parsing
+datetime    Date calculations
+matplotlib  Plot routines
+numpy       Math functions
+os          Operating system used to save plot in CWD
 ```
 
 **Biorhythm Curves**  
