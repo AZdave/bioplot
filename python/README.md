@@ -17,6 +17,25 @@
 
         Janis Joplin's birth date and death date are used as an example.
 
+**Features**
+
+- Plot generated with +/- 15 days of current date or target date.
+- Plot can be annotated with Name, Birthdate, and Target Date.
+- Plot default size and save location defined in program.
+- All plots show 7 periodic and 4 derived biorhythms.
+- Color coded warning of dates in 30 day plot window: **red** zero rossing; **yellow**  valleies; **green** peaks.
+- View any of 4 different plots or view all plots.
+- Save data to a csv file for other uses.
+
+
+**Python Modules Used**
+
+**argparse**    Command line argument parsing
+**datetime**    Date calculations
+**matplotlib**  Plot routines
+**numpy**       Math functions
+**os**          Operating system used to save plot in CWD
+
 **Biorhythm Curves**  
 
         Name          Cycle (days)
