@@ -26,6 +26,7 @@
 - Color coded warning of dates in 30 day plot window: **red** zero rossing; **yellow**  valle; **green** peaks.
 - View any of 4 different plots or view all plots.
 - Save data to a csv file for other uses.
+![Color output](./command_line.png)
 
 
 **Python Modules Used**
